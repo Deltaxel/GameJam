@@ -15,8 +15,10 @@ public:
 public:
 	Papi(void)
 	{
+		_sprite.setPosition(70, 100);
 		_texture.loadFromFile("papi.png");
 		_sprite.setTexture(_texture);
+		_sprite.setScale(0.7,0.7);
 	}
 	~Papi(void) {}
 
@@ -26,12 +28,12 @@ public:
 		switch (_direction)
 		{
 		case Papi::Direction::Left:
-			pos.x -= 5;
+			pos.x -= 8;
 			if (pos.x < 0)
 				pos.x = 0;
 			break ;
 		case Papi::Direction::Right:
-			pos.x += 5;
+			pos.x += 8;
 			if (pos.x > 1100 - _texture.getSize().x)
 				pos.x = 1100.0f - _texture.getSize().x;
 			break;

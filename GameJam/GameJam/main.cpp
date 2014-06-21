@@ -15,8 +15,8 @@ int main()
 {
 	RenderWindow window(VideoMode(1100, 768, 32), "Mettre ici le nom du jeu", Style::Close | Style::Titlebar);
 
-	Texture image, sky, clouds, buildings, img, pigeon, play, quit, credit;
-	Sprite hero, sSky, sClouds, sBuildings, sPlay, sQuit, sCredit;
+	Texture image, sky, clouds, buildings, img, pigeon, play, quit, credit, ground;
+	Sprite hero, sSky, sClouds, sBuildings, sPlay, sQuit, sCredit, sGround;
 	HUD	hud;
 	Papi papi;
 	bool down = true;
@@ -34,14 +34,15 @@ int main()
 	Spigeon.push_back(new Pigeon);
 	Spigeon.push_back(new Pigeon);
 
-	if (sky.loadFromFile("sky.jpg") == 0
-		|| clouds.loadFromFile("clouds.png") == 0
-		|| buildings.loadFromFile("buildings.png") == 0
+	if (sky.loadFromFile("fond.png") == 0
+		|| clouds.loadFromFile("nuages.png") == 0
+		|| buildings.loadFromFile("batiment.png") == 0
 		|| img.loadFromFile("poop.jpg") == 0
 		|| pigeon.loadFromFile("pigeon.png") == 0
 		|| play.loadFromFile("play.png") == 0
 		|| quit.loadFromFile("play.png") == 0
-		|| credit.loadFromFile("play.png") == 0)
+		|| credit.loadFromFile("play.png") == 0
+		|| ground.loadFromFile("tale-sol.png") == 0)
 	{
 		std::cerr << "Load image faild" << std::endl;
 		return EXIT_FAILURE;
@@ -72,10 +73,15 @@ int main()
 			  rCredit(300, 300, credit.getSize().x, credit.getSize().y);
 	sSky.setTexture(sky);
 	sSky.setPosition(0, 0);
+	sSky.setScale(0.5,0.5);
 	sClouds.setTexture(clouds);
 	sClouds.setPosition(0, 0);
+	sClouds.setScale(0.5,0.5);
 	sBuildings.setTexture(buildings);
 	sBuildings.setPosition(0, 0);
+	sBuildings.setScale(0.5,0.5);
+	sGround.setTexture(ground);
+	sGround.setPosition(0, 745);
 
 	Clock clock;
 	while (window.isOpen())
@@ -142,13 +148,14 @@ int main()
 		window.draw(sSky);
 		window.draw(sClouds);
 		window.draw(sBuildings);
-		papi.update(window);
+		window.draw(sGround);
 		hud.update(window);
+		papi.update(window);
 
 		unsigned int i;
 		for (i = 0; i < Spoop.size(); ++i)
 		{
-			if (i == Spoop.size() - 1 && Spoop[i]->getPosition().y > papi.getPosition().y + 400)
+			if (i == Spoop.size() - 1 && Spoop[i]->getPosition().y > papi.getPosition().y + 200)
 				down = true;
 			if (!ok[i])
 			{

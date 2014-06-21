@@ -10,6 +10,7 @@ public:
 	{
 		_texture.loadFromFile("pigeon.png");
 		_sprite.setTexture(_texture);
+		_sprite.setScale(1,1);
 		if ((_direction = ((rand() % 100) / 50) ? true : false))
 			_sprite.setScale(-1, 1);
 		_sprite.setPosition(-1100 + (float)(rand() % 2200), 500);
@@ -32,8 +33,9 @@ public:
 		}
 		for (auto it = poop.begin(); it != poop.end(); ++it)
 		{
-			if ((*it)->getPosition().x >= _sprite.getPosition().x + _texture.getSize().x &&
-				(*it)->getPosition().x <= _sprite.getPosition().x + _texture.getSize().x + 30)
+			if ((*it)->getPosition().y>= _sprite.getPosition().y
+				&& (*it)->getPosition().x + (*it)->getTexture()->getSize().x>= _sprite.getPosition().x - (_direction ? _texture.getSize().x : 0)
+				&& (*it)->getPosition().x <= _sprite.getPosition().x + _texture.getSize().x - (_direction ? _texture.getSize().x : 0))
 				_sprite.setScale(1.2f, 1.2f);
 		}
 		window.draw(_sprite);
