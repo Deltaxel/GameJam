@@ -32,8 +32,8 @@ public:
 		}
 		for (auto it = poop.begin(); it != poop.end(); ++it)
 		{
-			if ((*it)->getPosition().x >= _sprite.getPosition().x + _texture.getSize().x &&
-				(*it)->getPosition().x <= _sprite.getPosition().x + _texture.getSize().x + 30)
+			if ((*it)->getPosition().x >= _sprite.getPosition().x  &&
+				(*it)->getPosition().x <= _sprite.getPosition().x + _texture.getSize().x)
 				_sprite.setScale(1.2f, 1.2f);
 		}
 		window.draw(_sprite);
