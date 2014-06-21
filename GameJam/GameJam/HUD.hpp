@@ -65,8 +65,7 @@ public:
 public:
 	std::list<HUD::Button *> _buttons;
 	sf::Clock				_clock;
-
-private:
+public:
 	class Button
 	{
 	public:
@@ -98,7 +97,7 @@ private:
 				break;
 			};
 			_sprite.setTexture(_texture);
-			_sprite.setScale(0.1,0.1);
+			_sprite.setScale(0.1f, 0.1f);
 			_sprite.setPosition(200 * _time + 400, 50);
 		}
 
@@ -106,7 +105,7 @@ private:
 
 		void	update(sf::RenderWindow &window)
 		{
-			_sprite.setPosition(_sprite.getPosition().x - 200.0 * _clock.getElapsedTime().asSeconds(), 50);
+			_sprite.setPosition(_sprite.getPosition().x - 200.0f * _clock.getElapsedTime().asSeconds(), 50.0f);
 			window.draw(_sprite);
 			_clock.restart();
 		}

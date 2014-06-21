@@ -6,15 +6,17 @@
 
 #include "Pigeon.hpp"
 #include "HUD.hpp"
+#include "Papi.hpp"
 
 using namespace sf;
 
 int main()
 {
 	RenderWindow window(VideoMode(1100, 768, 32), "Mettre ici le nom du jeu", Style::Close | Style::Titlebar);
-	Texture image, sky, clouds, buildings, img, pigeon, play, quit, credit;
-	Sprite hero, sSky, sClouds, sBuildings, sPlay, sQuit, sCredit;
+	Texture sky, clouds, buildings, img, pigeon, play, quit, credit;
+	Sprite sSky, sClouds, sBuildings, sPlay, sQuit, sCredit;
 	HUD	hud;
+	Papi papi;
 	bool down = true;
 	bool gui = true;
 	std::vector<Sprite *> Spoop;
@@ -30,8 +32,7 @@ int main()
 	Spigeon.push_back(new Pigeon);
 	Spigeon.push_back(new Pigeon);
 
-	if (image.loadFromFile("papi.png") == 0
-		|| sky.loadFromFile("sky.jpg") == 0
+	if (sky.loadFromFile("sky.jpg") == 0
 		|| clouds.loadFromFile("clouds.png") == 0
 		|| buildings.loadFromFile("buildings.png") == 0
 		|| img.loadFromFile("poop.jpg") == 0
@@ -51,9 +52,6 @@ int main()
 	sCredit.setPosition(300, 500);
 	FloatRect rPlay(300, 100, play.getSize().x, play.getSize().y), rQuit(300, 500, quit.getSize().x, quit.getSize().y),
 			  rCredit(300, 300, credit.getSize().x, credit.getSize().y);
-	hero.setTexture(image);
-	hero.setPosition(50, 50);
-	hero.scale(0.75,0.75);
 	sSky.setTexture(sky);
 	sSky.setPosition(0, 0);
 	sClouds.setTexture(clouds);
@@ -105,27 +103,17 @@ int main()
 		sClouds.setPosition(((int)sClouds.getPosition().x - 1) % 1100, 0);
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		{
-			if (hero.getPosition().x - 5 < 0)
-				hero.setPosition(0, hero.getPosition().y);
-			else
-				hero.setPosition(hero.getPosition().x - 5, hero.getPosition().y);
-		}
+			papi.setDirection(Papi::Left);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		{
-			if (hero.getPosition().x + image.getSize().x - 50 >= 1100)
-				hero.setPosition(1100 - image.getSize().x + 50, hero.getPosition().y);
-			else
-				hero.setPosition(hero.getPosition().x + 5, hero.getPosition().y);		
-		}
+			papi.setDirection(Papi::Right);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
 			if (down)
 			{
 				Spoop.push_back(new Sprite);
-				Spoop.back()->setPosition(hero.getPosition().x + (image.getSize().x / 2) - 50, hero.getPosition().y + 100);
+				Spoop.back()->setPosition(papi.getPosition().x + (papi.getSize().x / 2) - 50, papi.getPosition().y + 100);
 				Spoop.back()->setTexture(img);
-				Spoop.back()->setScale(0.2,0.2);
+				Spoop.back()->setScale(0.2f, 0.2f);
 				ok.push_back(true);
 			}
 				down = false;		
@@ -134,13 +122,13 @@ int main()
 		window.draw(sSky);
 		window.draw(sClouds);
 		window.draw(sBuildings);
-		window.draw(hero);
+		papi.update(window);
 		hud.update(window);
 
 		unsigned int i;
 		for (i = 0; i < Spoop.size(); ++i)
 		{
-			if (i == Spoop.size() - 1 && Spoop[i]->getPosition().y > hero.getPosition().y + 400)
+			if (i == Spoop.size() - 1 && Spoop[i]->getPosition().y > papi.getPosition().y + 400)
 				down = true;
 			if (!ok[i])
 			{
