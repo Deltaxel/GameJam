@@ -11,28 +11,28 @@ using namespace sf;
 int main()
 {
 	RenderWindow window(VideoMode(1100, 768, 32), "Mettre ici le nom du jeu", Style::Close | Style::Titlebar);
-	Texture image, sky, clouds, buildings, img;
+	Texture image, sky, clouds, buildings, img, pigeon;
 	Sprite hero, sSky, sClouds, sBuildings;
 	bool down = true;
 	std::vector<Sprite *> Spoop;
 	std::vector<bool>  ok;
+	std::vector<Pigeon *> Spigeon;
 
 	window.setFramerateLimit(60);
 
-	std::deque<Pigeon> pigeon;
-
-	pigeon.pop_back();
-	pigeon.pop_back();
-	pigeon.pop_back();
-	pigeon.pop_back();
-	pigeon.pop_back();
-	pigeon.pop_back();
+	Spigeon.push_back(new Pigeon);
+	Spigeon.push_back(new Pigeon);
+	Spigeon.push_back(new Pigeon);
+	Spigeon.push_back(new Pigeon);
+	Spigeon.push_back(new Pigeon);
+	Spigeon.push_back(new Pigeon);
 
 	if (image.loadFromFile("hero.jpg") == 0
 		|| sky.loadFromFile("sky.jpg") == 0
 		|| clouds.loadFromFile("clouds.png") == 0
 		|| buildings.loadFromFile("buildings.png") == 0
-		|| img.loadFromFile("poop.jpg") == 0)
+		|| img.loadFromFile("poop.jpg") == 0
+		|| pigeon.loadFromFile("pigeon.png") == 0)
 	{
 		std::cerr << "Load image faild" << std::endl;
 		return EXIT_FAILURE;
@@ -46,6 +46,7 @@ int main()
 	sClouds.setPosition(0, 0);
 	sBuildings.setTexture(buildings);
 	sBuildings.setPosition(0, 0);
+	
 	while (window.isOpen())
     {
 		sClouds.setPosition(((int)sClouds.getPosition().x - 1) % 1100, 0);
@@ -105,7 +106,7 @@ int main()
 		unsigned int i;
 		for (i = 0; i < Spoop.size(); ++i)
 		{
-			if (i == Spoop.size() - 1 && Spoop[i]->getPosition().y > hero.getPosition().y + 250)
+			if (i == Spoop.size() - 1 && Spoop[i]->getPosition().y > hero.getPosition().y + 650)
 				down = true;
 			if (!ok[i])
 			{
@@ -115,8 +116,8 @@ int main()
 			else
 			{
 				window.draw(*Spoop[i]);
-				if (Spoop[i]->getPosition().y + 26 < 768)
-					Spoop[i]->setPosition(Spoop[i]->getPosition().x, Spoop[i]->getPosition().y + 6);
+				if (Spoop[i]->getPosition().y + 35 < 768)
+					Spoop[i]->setPosition(Spoop[i]->getPosition().x, Spoop[i]->getPosition().y + 15);
 				else
 				{
 					Spoop[i]->setPosition(Spoop[i]->getPosition().x, 768);
@@ -124,6 +125,8 @@ int main()
 				}
 			}
 		}
+		for (auto it = Spigeon.begin(); it != Spigeon.end(); ++it)
+			(*it)->update(window, Spoop);
 		window.display();
 	}
     return EXIT_SUCCESS;
