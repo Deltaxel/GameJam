@@ -9,26 +9,35 @@ using namespace sf;
 int main()
 {
 	RenderWindow window(VideoMode(1100, 768, 32), "Mettre ici le nom du jeu", Style::Close | Style::Titlebar);
-	Texture image, img;
-	Sprite hero;
+	Texture image, sky, clouds, buildings, img;
+	Sprite hero, sSky, sClouds, sBuildings;
 	bool down = true;
 	std::vector<Sprite *> Spoop;
 	std::vector<bool>  ok;
 
 	window.setFramerateLimit(60);
-	if (!image.loadFromFile("hero.jpg") || !img.loadFromFile("poop.jpg"))
+
+	if (image.loadFromFile("hero.jpg") == 0
+		|| sky.loadFromFile("sky.jpg") == 0
+		|| clouds.loadFromFile("clouds.png") == 0
+		|| buildings.loadFromFile("buildings.png") == 0
+		|| img.loadFromFile("poop.jpg") == 0)
 	{
 		std::cerr << "Load image faild" << std::endl;
 		return EXIT_FAILURE;
 	}
-	else
-	{
-		hero.setTexture(image);
-	}
+	hero.setTexture(image);
 	hero.setPosition(50, 50);
 	hero.scale(0.2,0.2);
+	sSky.setTexture(sky);
+	sSky.setPosition(0, 0);
+	sClouds.setTexture(clouds);
+	sClouds.setPosition(0, 0);
+	sBuildings.setTexture(buildings);
+	sBuildings.setPosition(0, 0);
 	while (window.isOpen())
     {
+		sClouds.setPosition(((int)sClouds.getPosition().x - 1) % 1100, 0);
         Event event;
         while (window.pollEvent(event))
         {
@@ -77,6 +86,9 @@ int main()
 				down = false;		
 		}
 		window.clear();
+		window.draw(sSky);
+		window.draw(sClouds);
+		window.draw(sBuildings);
 		window.draw(hero);
 
 		unsigned int i;
