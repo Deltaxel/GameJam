@@ -1,8 +1,10 @@
 #include <cstdlib>
 #include <iostream>
-#include <vector>
+#include <deque>
 
 #include <SFML/Graphics.hpp>
+
+#include "Pigeon.hpp"
 
 using namespace sf;
 
@@ -16,6 +18,15 @@ int main()
 	std::vector<bool>  ok;
 
 	window.setFramerateLimit(60);
+
+	std::deque<Pigeon> pigeon;
+
+	pigeon.pop_back();
+	pigeon.pop_back();
+	pigeon.pop_back();
+	pigeon.pop_back();
+	pigeon.pop_back();
+	pigeon.pop_back();
 
 	if (image.loadFromFile("hero.jpg") == 0
 		|| sky.loadFromFile("sky.jpg") == 0
