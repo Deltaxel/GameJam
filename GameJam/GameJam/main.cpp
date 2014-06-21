@@ -2,7 +2,8 @@
 #include <iostream>
 #include <deque>
 
-#include <SFML/Graphics.hpp>
+#include "SFML/Graphics.hpp"
+#include "fmod.hpp"
 
 #include "Pigeon.hpp"
 #include "HUD.hpp"
@@ -13,8 +14,9 @@ using namespace sf;
 int main()
 {
 	RenderWindow window(VideoMode(1100, 768, 32), "Mettre ici le nom du jeu", Style::Close | Style::Titlebar);
-	Texture sky, clouds, buildings, img, pigeon, play, quit, credit;
-	Sprite sSky, sClouds, sBuildings, sPlay, sQuit, sCredit;
+
+	Texture image, sky, clouds, buildings, img, pigeon, play, quit, credit;
+	Sprite hero, sSky, sClouds, sBuildings, sPlay, sQuit, sCredit;
 	HUD	hud;
 	Papi papi;
 	bool down = true;
@@ -44,6 +46,22 @@ int main()
 		std::cerr << "Load image faild" << std::endl;
 		return EXIT_FAILURE;
 	}
+	FMOD::System *system;
+    FMOD::Sound *musique;
+    int resultat;
+
+    FMOD::System_Create(&system);
+
+    system->init(1, FMOD_INIT_NORMAL, NULL);
+
+    resultat = system->createSound("music.mp3", FMOD_SOFTWARE | FMOD_2D | FMOD_CREATESTREAM, 0, &musique);
+    if (resultat != FMOD_OK)
+    {
+        std::cerr << "Impossible de lire le fichier mp3" << std::endl;
+        return EXIT_FAILURE;
+    }
+	
+	system->playSound(FMOD_CHANNEL_FREE, musique, 0, NULL);
 	sPlay.setTexture(play);
 	sPlay.setPosition(300, 100);
 	sQuit.setTexture(quit);
@@ -58,7 +76,8 @@ int main()
 	sClouds.setPosition(0, 0);
 	sBuildings.setTexture(buildings);
 	sBuildings.setPosition(0, 0);
-	
+
+	Clock clock;
 	while (window.isOpen())
     {
 		Event event;
@@ -78,6 +97,7 @@ int main()
 		//	window.draw(sPlay);
 		//	window.draw(sQuit);
 		//	window.draw(sCredit);
+
 		//	window.display();
 		//}
         while (window.pollEvent(event))
@@ -149,6 +169,8 @@ int main()
 		}
 		for (auto it = Spigeon.begin(); it != Spigeon.end(); ++it)
 			(*it)->update(window, Spoop);
+		if (clock.getElapsedTime().asSeconds() > 175)
+			system->close();
 		window.display();
 	}
     return EXIT_SUCCESS;
