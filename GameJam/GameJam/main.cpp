@@ -33,7 +33,7 @@ int main()
 	sBuildings.scale(0, 0);
 	while (window.isOpen())
     {
-		sClouds.setPosition((sClouds.getPosition().x + 1) % 1100, 0);
+		sClouds.setPosition(((int)sClouds.getPosition().x + 1) % 1100, 0);
         Event event;
         while (window.pollEvent(event))
         {
