@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Pigeon.hpp"
+#include "HUD.hpp"
 
 using namespace sf;
 
@@ -13,6 +14,7 @@ int main()
 	RenderWindow window(VideoMode(1100, 768, 32), "Mettre ici le nom du jeu", Style::Close | Style::Titlebar);
 	Texture image, sky, clouds, buildings, img, pigeon, play, quit, credit;
 	Sprite hero, sSky, sClouds, sBuildings, sPlay, sQuit, sCredit;
+	HUD	hud;
 	bool down = true;
 	bool gui = true;
 	std::vector<Sprite *> Spoop;
@@ -133,6 +135,7 @@ int main()
 		window.draw(sClouds);
 		window.draw(sBuildings);
 		window.draw(hero);
+		hud.update(window);
 
 		unsigned int i;
 		for (i = 0; i < Spoop.size(); ++i)
