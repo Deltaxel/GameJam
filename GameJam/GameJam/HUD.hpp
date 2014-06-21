@@ -21,10 +21,10 @@ public:
 public:
 	HUD(void)
 	{
-		_buttons.push_back(new HUD::Button(5, Button::Red));
-		_buttons.push_back(new HUD::Button(6, Button::Red));
-		_buttons.push_back(new HUD::Button(7, Button::Red));
-		_buttons.push_back(new HUD::Button(9, Button::Red));
+		_buttons.push_back(new HUD::Button(1, Button::Red));
+		_buttons.push_back(new HUD::Button(2, Button::Red));
+		_buttons.push_back(new HUD::Button(4, Button::Red));
+		_buttons.push_back(new HUD::Button(4.5, Button::Red));
 	}
 	~HUD(void) {}
 
@@ -88,7 +88,7 @@ private:
 				_texture.loadFromFile("BlueButton.png");
 				break ;
 			case HUD::Button::Color::Red:
-				_texture.loadFromFile("RedButton.png");
+				_texture.loadFromFile("RedButton.jpg");
 				break;
 			case HUD::Button::Color::Green:
 				_texture.loadFromFile("GreenButton.png");
@@ -98,15 +98,17 @@ private:
 				break;
 			};
 			_sprite.setTexture(_texture);
-			_sprite.setPosition(2 * _time + 1100, 50);
+			_sprite.setScale(0.1,0.1);
+			_sprite.setPosition(200 * _time + 400, 50);
 		}
 
 		~Button(void) {}
 
 		void	update(sf::RenderWindow &window)
 		{
-			_sprite.setPosition(_sprite.getPosition().x - 2 * _clock.getElapsedTime().asSeconds(), 50);
+			_sprite.setPosition(_sprite.getPosition().x - 200.0 * _clock.getElapsedTime().asSeconds(), 50);
 			window.draw(_sprite);
+			_clock.restart();
 		}
 
 		float	atTime(void) {return (_time);}
