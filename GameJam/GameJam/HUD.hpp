@@ -234,6 +234,7 @@ public:
 	{
 		HUD::WellPlay	ret = HUD::WellPlay::Fail;
 
+		std::cout << "tot" << std::endl;
 		if (_buttons.empty())
 			return (None);
 		if (_buttons.front()->atTime() - _clock.getElapsedTime().asSeconds() > 5)

@@ -144,6 +144,7 @@ int main()
 			papi.setDirection(Papi::Right);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
+			int ret;
 			if (down)
 			{
 				std::ostringstream ss;
@@ -152,11 +153,12 @@ int main()
 				Spoop.back()->setTexture(img);
 				Spoop.back()->setScale(0.2f, 0.2f);
 				ok.push_back(true);
-				if (hud.clicked() == 3)
+				ret = hud.clicked();
+				if (ret == 3)
 					score += 50;
-				else if (hud.clicked() == 2)
+				else if (ret == 2)
 					score += 30;
-				else if (hud.clicked() == 1)
+				else if (ret == 1)
 				{
 					score -= 10;
 					if (score < 0)
