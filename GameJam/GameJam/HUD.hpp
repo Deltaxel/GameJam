@@ -15,6 +15,10 @@ public:
 		Great
 	};
 
+private:
+		sf::Texture _text;
+		sf::Sprite _sprite;
+
 public:
 	class Button;
 
@@ -22,6 +26,12 @@ public:
 	HUD(void)
 	{
 		sf::Clock clock;
+		
+		_text.loadFromFile("test3.png");
+		_sprite.setTexture(_text);
+		_sprite.setPosition(210,50);
+		_sprite.scale(0.9,0.9);
+
 		_buttons.push_back(new HUD::Button(11.5, Button::Red, clock));
 		_buttons.push_back(new HUD::Button(13, Button::Red, clock));
 		_buttons.push_back(new HUD::Button(14, Button::Red, clock));
@@ -206,6 +216,7 @@ public:
 	{
 		HUD::WellPlay	ret = None;
 
+		window.draw(_sprite);
 		if (_buttons.empty())
 			return (None);
 		if (_clock.getElapsedTime().asSeconds() > _buttons.front()->atTime() + 1)
@@ -227,9 +238,9 @@ public:
 			return (None);
 		if (_buttons.front()->atTime() - _clock.getElapsedTime().asSeconds() > 5)
 			return (HUD::WellPlay::None);
-		if (_buttons.front()->atTime() - _clock.getElapsedTime().asSeconds() < 0.1)
+		if (_buttons.front()->getPosX() >= 185 && _buttons.front()->getPosX() <= 250)
 			ret = HUD::WellPlay::Great;
-		else if (_buttons.front()->atTime() - _clock.getElapsedTime().asSeconds() < 0.5)
+		else if (_buttons.front()->getPosX() >= 251 && _buttons.front()->getPosX() <= 310)
 			ret = HUD::WellPlay::Ok;
 		delete _buttons.front();
 		_buttons.erase(_buttons.begin());
@@ -286,6 +297,7 @@ public:
 		}
 
 		float	atTime(void) {return (_time);}
+		float	getPosX() {return (_sprite.getPosition().x);}
 
 	private:
 		float		_time;

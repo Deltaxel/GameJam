@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <deque>
+#include <sstream>
 
 #include "SFML/Graphics.hpp"
 #include "fmod.hpp"
@@ -19,11 +20,14 @@ int main()
 	Sprite hero, sSky, sClouds, sBuildings, sPlay, sQuit, sCredit, sGround;
 	HUD	hud;
 	Papi papi;
+	Font font;
+	Text text;
 	bool down = true;
 	bool gui = true;
 	std::vector<Sprite *> Spoop;
 	std::vector<bool>  ok;
 	std::vector<Pigeon *> Spigeon;
+	int score = 0;
 
 	window.setFramerateLimit(60);
 
@@ -42,7 +46,8 @@ int main()
 		|| play.loadFromFile("play.png") == 0
 		|| quit.loadFromFile("play.png") == 0
 		|| credit.loadFromFile("play.png") == 0
-		|| ground.loadFromFile("tale-sol.png") == 0)
+		|| ground.loadFromFile("tale-sol.png") == 0
+		|| font.loadFromFile("font.ttf") == 0)
 	{
 		std::cerr << "Load image faild" << std::endl;
 		return EXIT_FAILURE;
@@ -82,6 +87,11 @@ int main()
 	sBuildings.setScale(0.5,0.5);
 	sGround.setTexture(ground);
 	sGround.setPosition(0, 745);
+	text.setFont(font);
+	text.setCharacterSize(60);
+	text.setPosition(980, 700);
+	text.setColor(sf::Color::Red);
+	text.setString("0");
 
 	Clock clock;
 	while (window.isOpen())
@@ -136,11 +146,24 @@ int main()
 		{
 			if (down)
 			{
+				std::ostringstream ss;
 				Spoop.push_back(new Sprite);
 				Spoop.back()->setPosition(papi.getPosition().x + (papi.getSize().x / 2) - 50, papi.getPosition().y + 100);
 				Spoop.back()->setTexture(img);
 				Spoop.back()->setScale(0.2f, 0.2f);
 				ok.push_back(true);
+				if (hud.clicked() == 3)
+					score += 50;
+				else if (hud.clicked() == 2)
+					score += 30;
+				else if (hud.clicked() == 1)
+				{
+					score -= 10;
+					if (score < 0)
+						score = 0;
+				}
+				ss << score;
+				text.setString(ss.str());
 			}
 				down = false;		
 		}
@@ -151,6 +174,7 @@ int main()
 		window.draw(sGround);
 		hud.update(window);
 		papi.update(window);
+		window.draw(text);
 
 		unsigned int i;
 		for (i = 0; i < Spoop.size(); ++i)
