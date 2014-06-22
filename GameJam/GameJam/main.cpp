@@ -24,6 +24,7 @@ int main()
 	Text text;
 	bool down = true;
 	bool gui = true;
+	bool att = false;
 	std::vector<Sprite *> Spoop;
 	std::vector<bool>  ok;
 	std::vector<Pigeon *> Spigeon;
@@ -92,6 +93,7 @@ int main()
 	text.setPosition(980, 700);
 	text.setColor(sf::Color::Red);
 	text.setString("0");
+	int ret = 0;
 
 	Clock clock;
 	while (window.isOpen())
@@ -116,6 +118,7 @@ int main()
 
 		//	window.display();
 		//}
+		std::ostringstream ss;
         while (window.pollEvent(event))
         {
 			switch (event.type)
@@ -144,28 +147,14 @@ int main()
 			papi.setDirection(Papi::Right);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
-			int ret;
 			if (down)
 			{
-				std::ostringstream ss;
 				Spoop.push_back(new Sprite);
 				Spoop.back()->setPosition(papi.getPosition().x + (papi.getSize().x / 2) - 50, papi.getPosition().y + 100);
 				Spoop.back()->setTexture(img);
 				Spoop.back()->setScale(0.2f, 0.2f);
 				ok.push_back(true);
 				ret = hud.clicked();
-				if (ret == 3)
-					score += 50;
-				else if (ret == 2)
-					score += 30;
-				else if (ret == 1)
-				{
-					score -= 10;
-					if (score < 0)
-						score = 0;
-				}
-				ss << score;
-				text.setString(ss.str());
 			}
 				down = false;		
 		}
@@ -201,7 +190,9 @@ int main()
 			}
 		}
 		for (auto it = Spigeon.begin(); it != Spigeon.end(); ++it)
-			(*it)->update(window, Spoop);
+			(*it)->update(window, Spoop, ret, score);
+		ss << score;
+		text.setString(ss.str());
 		if (clock.getElapsedTime().asSeconds() > 175)
 			system->close();
 		window.display();
