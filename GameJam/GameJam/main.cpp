@@ -83,8 +83,8 @@ int main()
 	bool Bcredit = false;
 	sGui.setTexture(gui);
 	sGui.setPosition(0,0);
-	FloatRect rPlay(263, 617, 240, 70), rQuit(1090, 741, 240, 70),
-			  rCredit(261, 733, 240, 70);
+	FloatRect rPlay(35, 541, 240, 70), rQuit(866, 664, 240, 70),
+			  rCredit(35, 661, 240, 70);
 	sSky.setTexture(sky);
 	sSky.setPosition(0, 0);
 	sSky.setScale(0.5,0.5);
@@ -109,7 +109,7 @@ int main()
 		Event event;
 		while (guiOk)
 		{
-			Vector2i mouse = Mouse::getPosition();
+			Vector2i mouse = Mouse::getPosition(window);
 			while (window.pollEvent(event))
 			{
 				if (event.type == Event::Closed)
