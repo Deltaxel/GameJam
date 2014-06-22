@@ -39,16 +39,17 @@ int main()
 	sPigeon.push_back(new Pigeon);
 	sPigeon.push_back(new Pigeon);
 
-	if (sky.loadFromFile("ressources\backgound.png") == 0
-		|| clouds.loadFromFile("ressources\clouds.png") == 0
-		|| buildings.loadFromFile("ressources\building.png") == 0
-		|| play.loadFromFile("ressources\play.png") == 0
-		|| quit.loadFromFile("ressources\play.png") == 0
-		|| credit.loadFromFile("ressources\play.png") == 0
-		|| ground.loadFromFile("ressources\floor.png") == 0
-		|| font.loadFromFile("ressources\font.ttf") == 0)
+	if (sky.loadFromFile("ressources/background.png") == 0
+		|| clouds.loadFromFile("ressources/clouds.png") == 0
+		|| buildings.loadFromFile("ressources/building.png") == 0
+		|| play.loadFromFile("ressources/play.png") == 0
+		|| quit.loadFromFile("ressources/play.png") == 0
+		|| credit.loadFromFile("ressources/play.png") == 0
+		|| ground.loadFromFile("ressources/floor.png") == 0
+		|| font.loadFromFile("ressources/font.ttf") == 0)
 	{
 		std::cerr << "Load image faild" << std::endl;
+		system("PAUSE");
 		return EXIT_FAILURE;
 	}
 	FMOD::System *system;
@@ -59,11 +60,11 @@ int main()
 
     system->init(1, FMOD_INIT_NORMAL, NULL);
 
-    resultat = system->createSound("ressources\music.mp3", FMOD_SOFTWARE | FMOD_2D | FMOD_CREATESTREAM, 0, &musique);
+    resultat = system->createSound("ressources/music.mp3", FMOD_SOFTWARE | FMOD_2D | FMOD_CREATESTREAM, 0, &musique);
     if (resultat != FMOD_OK)
     {
         std::cerr << "Impossible de lire le fichier mp3" << std::endl;
-        return EXIT_FAILURE;
+		return EXIT_FAILURE;
     }
 	
 	system->playSound(FMOD_CHANNEL_FREE, musique, 0, NULL);

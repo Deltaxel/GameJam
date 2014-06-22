@@ -10,7 +10,7 @@ class Pigeon
 public:
 	Pigeon()
 	{
-		_texture.loadFromFile("ressources\pigeon.png");
+		_texture.loadFromFile("ressources/pigeon.png");
 		_sprite.setTexture(_texture);
 		_sprite.setScale(1,1);
 		if ((_direction = ((rand() % 100) / 50) ? true : false))

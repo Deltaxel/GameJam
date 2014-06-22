@@ -27,7 +27,7 @@ public:
 	{
 		sf::Clock clock;
 		
-		_text.loadFromFile("ressources\shoot_bar.png");
+		_text.loadFromFile("ressources/shoot_bar.png");
 		_sprite.setTexture(_text);
 		_sprite.setPosition(210,50);
 		_sprite.scale(0.9,0.9);
@@ -269,16 +269,16 @@ public:
 			switch (color)
 			{
 			case HUD::Button::Color::Blue:
-				_texture.loadFromFile("ressources\BlueButton.png");
+				_texture.loadFromFile("ressources/BlueButton.png");
 				break ;
 			case HUD::Button::Color::Red:
-				_texture.loadFromFile("ressources\RedButton.jpg");
+				_texture.loadFromFile("ressources/RedButton.jpg");
 				break;
 			case HUD::Button::Color::Green:
-				_texture.loadFromFile("ressources\GreenButton.png");
+				_texture.loadFromFile("ressources/GreenButton.png");
 				break;
 			case HUD::Button::Color::Yellow:
-				_texture.loadFromFile("ressources\YellowButton.png");
+				_texture.loadFromFile("ressources/YellowButton.png");
 				break;
 			};
 			_sprite.setTexture(_texture);
