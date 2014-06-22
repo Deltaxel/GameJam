@@ -18,14 +18,15 @@ int main()
 {
 	RenderWindow window(VideoMode(1100, 768, 32), "EDGY BOBY", Style::Close | Style::Titlebar);
 
-	Texture sky, clouds, buildings, play, quit, credit, ground, end;
-	Sprite sSky, sClouds, sBuildings, sPlay, sQuit, sCredit, sGround, sEnd;
+	Texture sky, clouds, buildings, ground, end, gui, credit;
+	Sprite sSky, sClouds, sBuildings, sGround, sEnd, sGui, sCredit;
 	HUD	hud;
+	bool isr = false;
 	Papi papi;
 	Font font;
 	Text text;
 	bool down = true;
-	bool gui = true;
+	bool guiOk = true;
 	std::list<Caca *> sPoop;
 	std::list<Pigeon *> sPigeon;
 	int score = 0;
@@ -44,22 +45,15 @@ int main()
 	sPigeon.push_back(new Pigeon);
 	sPigeon.push_back(new Pigeon);
 	sPigeon.push_back(new Pigeon);
-	sPigeon.push_back(new Pigeon);
-	sPigeon.push_back(new Pigeon);
-	sPigeon.push_back(new Pigeon);
-	sPigeon.push_back(new Pigeon);
-	sPigeon.push_back(new Pigeon);
-	sPigeon.push_back(new Pigeon);
 
 	if (sky.loadFromFile("ressources/background.png") == 0
 		|| clouds.loadFromFile("ressources/clouds.png") == 0
 		|| buildings.loadFromFile("ressources/building.png") == 0
-		|| play.loadFromFile("ressources/play.png") == 0
-		|| quit.loadFromFile("ressources/play.png") == 0
-		|| credit.loadFromFile("ressources/play.png") == 0
 		|| ground.loadFromFile("ressources/floor.png") == 0
 		|| font.loadFromFile("ressources/font.ttf") == 0
-		|| end.loadFromFile("ressources/end.png") == 0)
+		|| end.loadFromFile("ressources/end.png") == 0
+		|| gui.loadFromFile("ressources/interface.png") == 0
+		|| credit.loadFromFile("ressources/credits.png") == 0)
 	{
 		std::cerr << "Load image faild" << std::endl;
 		system("PAUSE");
@@ -84,14 +78,13 @@ int main()
 	sEnd.setTexture(end);
 	sEnd.setPosition(0,0);
 	sEnd.setScale(0.5, 0.5);
-	sPlay.setTexture(play);
-	sPlay.setPosition(300, 100);
-	sQuit.setTexture(quit);
-	sQuit.setPosition(300, 300);
 	sCredit.setTexture(credit);
-	sCredit.setPosition(300, 500);
-	FloatRect rPlay(300, 100, play.getSize().x, play.getSize().y), rQuit(300, 500, quit.getSize().x, quit.getSize().y),
-			  rCredit(300, 300, credit.getSize().x, credit.getSize().y);
+	sCredit.setPosition(0,0);
+	bool Bcredit = false;
+	sGui.setTexture(gui);
+	sGui.setPosition(0,0);
+	FloatRect rPlay(263, 617, 240, 70), rQuit(1090, 741, 240, 70),
+			  rCredit(261, 733, 240, 70);
 	sSky.setTexture(sky);
 	sSky.setPosition(0, 0);
 	sSky.setScale(0.5,0.5);
@@ -114,25 +107,46 @@ int main()
 	while (window.isOpen())
     {
 		Event event;
-		//while (gui)
-		//{
-		//	Vector2i mouse = Mouse::getPosition();
-		//	while (window.pollEvent(event))
-		//	{
-		//		if (event.type == Event::Closed)
-		//			window.close();
-		//	}
-		//	if (rPlay.contains(window.mapPixelToCoords(mouse)))
-		//		gui = false;
-		//	if (rQuit.contains(window.mapPixelToCoords(mouse)))
-		//		window.close();
-		//	window.clear();
-		//	window.draw(sPlay);
-		//	window.draw(sQuit);
-		//	window.draw(sCredit);
-
-		//	window.display();
-		//}
+		while (guiOk)
+		{
+			Vector2i mouse = Mouse::getPosition();
+			while (window.pollEvent(event))
+			{
+				if (event.type == Event::Closed)
+				{
+					window.close();
+					exit(0);
+				}
+			}
+			if (Mouse::isButtonPressed(Mouse::Left) == false)
+				isr = false;
+			if (rPlay.contains(window.mapPixelToCoords(mouse)) && Mouse::isButtonPressed(Mouse::Left))
+			{
+				guiOk = false;
+				break ;
+			}
+			if (rQuit.contains(window.mapPixelToCoords(mouse)) && Mouse::isButtonPressed(Mouse::Left))
+			{
+				if (Bcredit == false && isr == false)
+				{
+					window.close();
+					exit(0);
+				}
+				else
+				{
+					Bcredit = false;
+					isr = true;
+				}
+			}
+			if (rCredit.contains(window.mapPixelToCoords(mouse)) && Mouse::isButtonPressed(Mouse::Left))
+				Bcredit = true;
+			window.clear();
+			if (!Bcredit)
+				window.draw(sGui);
+			else
+				window.draw(sCredit);
+			window.display();
+		}
 		std::ostringstream ss;
         while (window.pollEvent(event))
         {
@@ -140,12 +154,14 @@ int main()
 			{
 				case Event::Closed:
 					window.close();
+					exit(0);
 					break;
 				case Event::KeyPressed:
 					switch (event.key.code)
 					{
 						case Keyboard::Escape:
 							window.close();
+							exit(0);
 							break;
 						default:
 							break;
@@ -211,5 +227,6 @@ int main()
 		}
 		window.display();
 	}
+	exit(0);
     return EXIT_SUCCESS;
 }

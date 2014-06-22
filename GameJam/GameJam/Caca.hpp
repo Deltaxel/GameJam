@@ -39,7 +39,7 @@ public:
 		window.draw(_sprite);
 	}
 	
-	bool	isAlive(void) const { return (_clock.getElapsedTime().asSeconds() < 5.0f); }
+	bool	isAlive(void) const { return (_clock.getElapsedTime().asSeconds() < 3.0f); }
 
 	sf::Vector2f	getPosition(void) const { return (_sprite.getPosition()); }
 	sf::Vector2u	getSize(void) const { return (_texture[_frame].getSize()); }

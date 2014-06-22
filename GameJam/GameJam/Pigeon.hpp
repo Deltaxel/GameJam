@@ -19,7 +19,7 @@ public:
 		_sprite.setScale(1, 1);
 		if ((_direction = ((rand() % 100) / 50) ? true : false))
 			_sprite.setScale(-1, 1);
-		_sprite.setPosition(-1100 + (float)(rand() % 2200), 500);
+		_sprite.setPosition(-1100 + (float)(rand() % 2200), 620);
 		_shooted = false;
 		_frame = 0;
 	}
@@ -29,21 +29,22 @@ public:
 	{
 		if (_shooted == false)
 		{
-			if (_frameClock.getElapsedTime().asMilliseconds() > 50)
+			if (_frameClock.getElapsedTime().asMilliseconds() > 70)
 			{
 				++_frame;
 				_frame %= 4;
 				_sprite.setTexture(_texture[_frame]);
+				_frameClock.restart();
 			}
 			if (_direction)
 			{
-				_sprite.setPosition(_sprite.getPosition().x + 1.0f, 500);
+				_sprite.setPosition(_sprite.getPosition().x + 1.0f, 620);
 				if (_sprite.getPosition().x > 1200)
 					init();
 			}
 			else
 			{
-				_sprite.setPosition(_sprite.getPosition().x - 1.0f, 500);
+				_sprite.setPosition(_sprite.getPosition().x - 1.0f, 620);
 				if (_sprite.getPosition().x < -(long int)_texture[_frame].getSize().x)
 					init();
 			}
@@ -53,8 +54,9 @@ public:
 			{
 				ok = false;
 				if ((*it)->getPosition().y >= _sprite.getPosition().y
-					&& (*it)->getPosition().x + (*it)->getSize().x >= _sprite.getPosition().x - (_direction ? _texture[_frame].getSize().x : 0)
-					&& (*it)->getPosition().x <= _sprite.getPosition().x + _texture[_frame].getSize().x - (_direction ? _texture[_frame].getSize().x : 0))
+					&& (*it)->getPosition().x + 70 >= _sprite.getPosition().x - (_direction ? _texture[_frame].getSize().x : 0)
+					&& (*it)->getPosition().x + 70 <= _sprite.getPosition().x + _texture[_frame].getSize().x - (_direction ? _texture[_frame].getSize().x : 0)
+					&& (*it)->getPosition().y - _sprite.getPosition().y < 20)
 				{
 					if (ret == 3)
 						score += 50;
@@ -94,11 +96,11 @@ private:
 			_sprite.scale(-1, 1);
 		if ((_direction = ((rand() % 100) / 50) ? true : false))
 		{
-			_sprite.setPosition(-(float)_texture[_frame].getSize().x - (float)(rand() % 1100), 500.0f);
+			_sprite.setPosition(-(float)_texture[_frame].getSize().x - (float)(rand() % 1100), 620.0f);
 			_sprite.setScale(-1.0f, 1.0f);
 		}
 		else
-			_sprite.setPosition(1200.0f + (float)(rand() % 1100), 500.0f);
+			_sprite.setPosition(1200.0f + (float)(rand() % 1100), 620.0f);
 		_shooted = false;
 	}
 
