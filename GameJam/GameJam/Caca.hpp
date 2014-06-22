@@ -22,14 +22,14 @@ public:
 
 	void	update(sf::RenderWindow &window)
 	{
-		if (_sprite.getPosition().y < 700)
+		if (_sprite.getPosition().y < 630)
 		{
 			_sprite.setPosition(_sprite.getPosition().x, _sprite.getPosition().y + 15);
 			_clock.restart();
 		}
 		else
 		{
-			_sprite.setPosition(_sprite.getPosition().x, 700);
+			_sprite.setPosition(_sprite.getPosition().x, 630);
 			if (_frame < 3)
 			{
 				++_frame;
@@ -39,7 +39,7 @@ public:
 		window.draw(_sprite);
 	}
 	
-	bool	isAlive(void) const { return (_clock.getElapsedTime().asSeconds() < 1.0f); }
+	bool	isAlive(void) const { return (_clock.getElapsedTime().asSeconds() < 5.0f); }
 
 	sf::Vector2f	getPosition(void) const { return (_sprite.getPosition()); }
 	sf::Vector2u	getSize(void) const { return (_texture[_frame].getSize()); }

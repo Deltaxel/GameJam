@@ -33,8 +33,11 @@ public:
 			if (_sprite.getPosition().x < -(long int)_texture.getSize().x)
 				init();
 		}
-		for (auto it = poop.begin(); it != poop.end(); ++it)
+		auto it = poop.begin();
+		bool ok;
+		while (it != poop.end())
 		{
+			ok = false;
 			if ((*it)->getPosition().y>= _sprite.getPosition().y
 				&& (*it)->getPosition().x + (*it)->getSize().x >= _sprite.getPosition().x - (_direction ? _texture.getSize().x : 0)
 				&& (*it)->getPosition().x <= _sprite.getPosition().x + _texture.getSize().x - (_direction ? _texture.getSize().x : 0))
@@ -44,16 +47,12 @@ public:
 					score += 50;
 				else if (ret == 2)
 					score += 30;
+				ok = true;
 			}
+			if (ok)
+				it = poop.erase(it);
 			else
-			{
-				if (ret == 1)
-				{
-					score -= 10;
-					if (score < 0)
-						score = 0;			
-				}
-			}
+				++it;
 		}
 		window.draw(_sprite);
 	}

@@ -88,7 +88,7 @@ int main()
 	sGround.setPosition(0, 745);
 	text.setFont(font);
 	text.setCharacterSize(60);
-	text.setPosition(980, 700);
+	text.setPosition(950, 640);
 	text.setColor(sf::Color::Red);
 	text.setString("0");
 	int ret = 0;
