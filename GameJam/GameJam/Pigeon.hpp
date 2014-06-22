@@ -12,6 +12,9 @@ public:
 	{
 		_texture[0].loadFromFile("ressources/pigeon.png");
 		_texture[1].loadFromFile("ressources/pigeon1.png");
+		_texture[2].loadFromFile("ressources/pigeon2.png");
+		_texture[3].loadFromFile("ressources/pigeon3.png");
+		_texture[4].loadFromFile("ressources/pigeon4.png");
 		_sprite.setTexture(_texture[0]);
 		_sprite.setScale(1, 1);
 		if ((_direction = ((rand() % 100) / 50) ? true : false))
@@ -26,6 +29,12 @@ public:
 	{
 		if (_shooted == false)
 		{
+			if (_frameClock.getElapsedTime().asMilliseconds() > 50)
+			{
+				++_frame;
+				_frame %= 4;
+				_sprite.setTexture(_texture[_frame]);
+			}
 			if (_direction)
 			{
 				_sprite.setPosition(_sprite.getPosition().x + 1.0f, 500);
@@ -68,9 +77,8 @@ public:
 		}
 		else
 		{
-			if (_frame < 1)
-				++_frame;
-			_sprite.setTexture(_texture[_frame]);
+			_frame = 4;
+			_sprite.setTexture(_texture[4]);
 			if (_clock.getElapsedTime().asSeconds() > 1)
 				init();
 		}
@@ -96,10 +104,12 @@ private:
 
 private:
 	int			_frame;
+	sf::Clock	_frameClock;
+
 	bool		_direction;
 	bool		_shooted;
 
-	sf::Texture	_texture[2];
+	sf::Texture	_texture[5];
 	sf::Sprite	_sprite;
 
 	sf::Clock	_clock;
