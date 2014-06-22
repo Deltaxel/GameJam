@@ -26,9 +26,9 @@ public:
 		_texture[4].loadFromFile("papi4.png");
 		_sprite[4].setTexture(_texture[4]);
 		_texture[5].loadFromFile("papi5.png");
-		_sprite[5].setTexture(_texture[6]);
-		_texture[6].loadFromFile("papi7.png");
-		_sprite[6].setTexture(_texture[7]);
+		_sprite[5].setTexture(_texture[5]);
+		_texture[6].loadFromFile("papi6.png");
+		_sprite[6].setTexture(_texture[6]);
 		for (int it = 0; it < 7; ++it)
 		{
 			_sprite[it].setPosition(70, 100);
@@ -47,10 +47,10 @@ public:
 			++_frame;
 			if (_frame > 6)
 				_frame = 1;
-			break;
 			pos.x -= 8;
 			if (pos.x < 0)
 				pos.x = 0;
+			break;
 		case Papi::Direction::Right:
 			--_frame;
 			if (_frame < 1)

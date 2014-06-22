@@ -19,7 +19,7 @@ public:
 	}
 	~Pigeon() {}
 
-	void	update(sf::RenderWindow &window, std::list<Caca *> &poop)
+	void	update(sf::RenderWindow &window, std::list<Caca *> &poop, int ret, int &score)
 	{
 		if (_direction)
 		{
@@ -38,7 +38,22 @@ public:
 			if ((*it)->getPosition().y>= _sprite.getPosition().y
 				&& (*it)->getPosition().x + (*it)->getSize().x >= _sprite.getPosition().x - (_direction ? _texture.getSize().x : 0)
 				&& (*it)->getPosition().x <= _sprite.getPosition().x + _texture.getSize().x - (_direction ? _texture.getSize().x : 0))
+			{
 				_sprite.setScale(1.2f, 1.2f);
+				if (ret == 3)
+					score += 50;
+				else if (ret == 2)
+					score += 30;
+			}
+			else
+			{
+				if (ret == 1)
+				{
+					score -= 10;
+					if (score < 0)
+						score = 0;			
+				}
+			}
 		}
 		window.draw(_sprite);
 	}

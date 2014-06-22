@@ -14,21 +14,22 @@ public:
 		_texture[2].loadFromFile("caca3.png");
 		_texture[3].loadFromFile("caca4.png");
 		_sprite.setTexture(_texture[0]);
-		_sprite.setPosition(papi.getPosition().x + (papi.getSize().x / 2) - 50, papi.getPosition().y + 100);
-		_sprite.setScale(0.2f, 0.2f);
+		_sprite.setPosition(papi.getPosition().x + (papi.getSize().x / 2) - 100, papi.getPosition().y + 50);
+		_sprite.setScale(0.5f, 0.5f);
+		_frame = 0;
 	}
 	~Caca(void) {}
 
 	void	update(sf::RenderWindow &window)
 	{
-		if (_sprite.getPosition().y < 733)
+		if (_sprite.getPosition().y < 700)
 		{
 			_sprite.setPosition(_sprite.getPosition().x, _sprite.getPosition().y + 15);
 			_clock.restart();
 		}
 		else
 		{
-			_sprite.setPosition(_sprite.getPosition().x, 733);
+			_sprite.setPosition(_sprite.getPosition().x, 700);
 			if (_frame < 3)
 			{
 				++_frame;

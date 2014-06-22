@@ -45,7 +45,7 @@ int main()
 		|| play.loadFromFile("play.png") == 0
 		|| quit.loadFromFile("play.png") == 0
 		|| credit.loadFromFile("play.png") == 0
-		|| ground.loadFromFile("tale-sol.png") == 0
+		|| ground.loadFromFile("floor.png") == 0
 		|| font.loadFromFile("font.ttf") == 0)
 	{
 		std::cerr << "Load image faild" << std::endl;
@@ -91,6 +91,7 @@ int main()
 	text.setPosition(980, 700);
 	text.setColor(sf::Color::Red);
 	text.setString("0");
+	int ret = 0;
 
 	Clock clock;
 	while (window.isOpen())
@@ -115,6 +116,7 @@ int main()
 
 		//	window.display();
 		//}
+		std::ostringstream ss;
         while (window.pollEvent(event))
         {
 			switch (event.type)
@@ -143,24 +145,11 @@ int main()
 			papi.setDirection(Papi::Right);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
-			int ret;
 			if (down)
 			{
 				std::ostringstream ss;
 				sPoop.push_back(new Caca(papi));
 				ret = hud.clicked();
-				if (ret == 3)
-					score += 50;
-				else if (ret == 2)
-					score += 30;
-				else if (ret == 1)
-				{
-					score -= 10;
-					if (score < 0)
-						score = 0;
-				}
-				ss << score;
-				text.setString(ss.str());
 			}
 				down = false;		
 		}
@@ -173,9 +162,12 @@ int main()
 		papi.update(window);
 		window.draw(text);
 
+		unsigned long int	i = 1;
 		auto it = sPoop.begin();
 		while (it != sPoop.end())
 		{
+			if (i == sPoop.size() && (*it)->getPosition().y > 400)
+				down = true;
 			(*it)->update(window);
 			if ((*it)->isAlive())
 				++it;
@@ -184,9 +176,12 @@ int main()
 				delete (*it);
 				it = sPoop.erase(it);
 			}
+			++i;
 		}
 		for (auto it = sPigeon.begin(); it != sPigeon.end(); ++it)
-			(*it)->update(window, sPoop);
+			(*it)->update(window, sPoop, ret, score);
+		ss << score;
+		text.setString(ss.str());
 		if (clock.getElapsedTime().asSeconds() > 175)
 			system->close();
 		window.display();
