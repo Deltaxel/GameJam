@@ -9,10 +9,10 @@ class Caca
 public:
 	Caca(Papi &papi)
 	{
-		_texture[0].loadFromFile("caca1.png");
-		_texture[1].loadFromFile("caca2.png");
-		_texture[2].loadFromFile("caca3.png");
-		_texture[3].loadFromFile("caca4.png");
+		_texture[0].loadFromFile("ressources\caca1.png");
+		_texture[1].loadFromFile("ressources\caca2.png");
+		_texture[2].loadFromFile("ressources\caca3.png");
+		_texture[3].loadFromFile("ressources\caca4.png");
 		_sprite.setTexture(_texture[0]);
 		_sprite.setPosition(papi.getPosition().x + (papi.getSize().x / 2) - 100, papi.getPosition().y + 50);
 		_sprite.setScale(0.5f, 0.5f);

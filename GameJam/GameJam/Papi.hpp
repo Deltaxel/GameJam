@@ -15,19 +15,19 @@ public:
 public:
 	Papi(void)
 	{
-		_texture[0].loadFromFile("papi.png");
+		_texture[0].loadFromFile("ressources\papi.png");
 		_sprite[0].setTexture(_texture[0]);
-		_texture[1].loadFromFile("papi1.png");
+		_texture[1].loadFromFile("ressources\papi1.png");
 		_sprite[1].setTexture(_texture[1]);
-		_texture[2].loadFromFile("papi2.png");
+		_texture[2].loadFromFile("ressources\papi2.png");
 		_sprite[2].setTexture(_texture[2]);
-		_texture[3].loadFromFile("papi3.png");
+		_texture[3].loadFromFile("ressources\papi3.png");
 		_sprite[3].setTexture(_texture[3]);
-		_texture[4].loadFromFile("papi4.png");
+		_texture[4].loadFromFile("ressources\papi4.png");
 		_sprite[4].setTexture(_texture[4]);
-		_texture[5].loadFromFile("papi5.png");
+		_texture[5].loadFromFile("ressources\papi5.png");
 		_sprite[5].setTexture(_texture[5]);
-		_texture[6].loadFromFile("papi6.png");
+		_texture[6].loadFromFile("ressources\papi6.png");
 		_sprite[6].setTexture(_texture[6]);
 		for (int it = 0; it < 7; ++it)
 		{
