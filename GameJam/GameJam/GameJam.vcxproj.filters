@@ -29,5 +29,8 @@
     <ClInclude Include="Papi.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Caca.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

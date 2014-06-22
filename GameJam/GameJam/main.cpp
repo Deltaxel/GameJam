@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <deque>
+#include <list>
 #include <sstream>
 
 #include "SFML/Graphics.hpp"
@@ -9,6 +10,7 @@
 #include "Pigeon.hpp"
 #include "HUD.hpp"
 #include "Papi.hpp"
+#include "Caca.hpp"
 
 using namespace sf;
 
@@ -16,38 +18,34 @@ int main()
 {
 	RenderWindow window(VideoMode(1100, 768, 32), "Mettre ici le nom du jeu", Style::Close | Style::Titlebar);
 
-	Texture image, sky, clouds, buildings, img, pigeon, play, quit, credit, ground;
-	Sprite hero, sSky, sClouds, sBuildings, sPlay, sQuit, sCredit, sGround;
+	Texture sky, clouds, buildings, play, quit, credit, ground;
+	Sprite sSky, sClouds, sBuildings, sPlay, sQuit, sCredit, sGround;
 	HUD	hud;
 	Papi papi;
 	Font font;
 	Text text;
 	bool down = true;
 	bool gui = true;
-	bool att = false;
-	std::vector<Sprite *> Spoop;
-	std::vector<bool>  ok;
-	std::vector<Pigeon *> Spigeon;
+	std::list<Caca *> sPoop;
+	std::list<Pigeon *> sPigeon;
 	int score = 0;
 
 	window.setFramerateLimit(60);
 
-	Spigeon.push_back(new Pigeon);
-	Spigeon.push_back(new Pigeon);
-	Spigeon.push_back(new Pigeon);
-	Spigeon.push_back(new Pigeon);
-	Spigeon.push_back(new Pigeon);
-	Spigeon.push_back(new Pigeon);
+	sPigeon.push_back(new Pigeon);
+	sPigeon.push_back(new Pigeon);
+	sPigeon.push_back(new Pigeon);
+	sPigeon.push_back(new Pigeon);
+	sPigeon.push_back(new Pigeon);
+	sPigeon.push_back(new Pigeon);
 
 	if (sky.loadFromFile("fond.png") == 0
 		|| clouds.loadFromFile("nuages.png") == 0
 		|| buildings.loadFromFile("batiment.png") == 0
-		|| img.loadFromFile("poop.jpg") == 0
-		|| pigeon.loadFromFile("pigeon.png") == 0
 		|| play.loadFromFile("play.png") == 0
 		|| quit.loadFromFile("play.png") == 0
 		|| credit.loadFromFile("play.png") == 0
-		|| ground.loadFromFile("tale-sol.png") == 0
+		|| ground.loadFromFile("floor.png") == 0
 		|| font.loadFromFile("font.ttf") == 0)
 	{
 		std::cerr << "Load image faild" << std::endl;
@@ -149,11 +147,8 @@ int main()
 		{
 			if (down)
 			{
-				Spoop.push_back(new Sprite);
-				Spoop.back()->setPosition(papi.getPosition().x + (papi.getSize().x / 2) - 50, papi.getPosition().y + 100);
-				Spoop.back()->setTexture(img);
-				Spoop.back()->setScale(0.2f, 0.2f);
-				ok.push_back(true);
+				std::ostringstream ss;
+				sPoop.push_back(new Caca(papi));
 				ret = hud.clicked();
 			}
 				down = false;		
@@ -167,30 +162,24 @@ int main()
 		papi.update(window);
 		window.draw(text);
 
-		unsigned int i;
-		for (i = 0; i < Spoop.size(); ++i)
+		unsigned long int	i = 1;
+		auto it = sPoop.begin();
+		while (it != sPoop.end())
 		{
-			if (i == Spoop.size() - 1 && Spoop[i]->getPosition().y > papi.getPosition().y + 200)
+			if (i == sPoop.size() && (*it)->getPosition().y > 400)
 				down = true;
-			if (!ok[i])
-			{
-				Spoop.erase(Spoop.begin() + i);
-				ok.erase(ok.begin() + i);
-			}
+			(*it)->update(window);
+			if ((*it)->isAlive())
+				++it;
 			else
 			{
-				window.draw(*Spoop[i]);
-				if (Spoop[i]->getPosition().y + 35 < 768)
-					Spoop[i]->setPosition(Spoop[i]->getPosition().x, Spoop[i]->getPosition().y + 15);
-				else
-				{
-					Spoop[i]->setPosition(Spoop[i]->getPosition().x, 768);
-					ok[i] = false;
-				}
+				delete (*it);
+				it = sPoop.erase(it);
 			}
+			++i;
 		}
-		for (auto it = Spigeon.begin(); it != Spigeon.end(); ++it)
-			(*it)->update(window, Spoop, ret, score);
+		for (auto it = sPigeon.begin(); it != sPigeon.end(); ++it)
+			(*it)->update(window, sPoop, ret, score);
 		ss << score;
 		text.setString(ss.str());
 		if (clock.getElapsedTime().asSeconds() > 175)
