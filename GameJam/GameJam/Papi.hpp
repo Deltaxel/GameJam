@@ -44,17 +44,25 @@ public:
 		switch (_direction)
 		{
 		case Papi::Direction::Left:
-			++_frame;
-			if (_frame > 6)
-				_frame = 1;
+			if (_frameClock.getElapsedTime().asMilliseconds() > 100)
+			{
+				++_frame;
+				if (_frame > 6)
+					_frame = 1;
+				_frameClock.restart();
+			}
 			pos.x -= 8;
 			if (pos.x < 0)
 				pos.x = 0;
 			break;
 		case Papi::Direction::Right:
-			--_frame;
-			if (_frame < 1)
-				_frame = 6;
+			if (_frameClock.getElapsedTime().asMilliseconds() > 100)
+			{
+				--_frame;
+				if (_frame < 1)
+					_frame = 6;
+				_frameClock.restart();
+			}
 			pos.x += 8;
 			if (pos.x > 1100 - _texture[_frame].getSize().x)
 				pos.x = 1100.0f - _texture[_frame].getSize().x;
@@ -77,5 +85,7 @@ private:
 
 	sf::Texture	_texture[7];
 	sf::Sprite	_sprite[7];
+
+	sf::Clock	_frameClock;
 	int			_frame;
 };
