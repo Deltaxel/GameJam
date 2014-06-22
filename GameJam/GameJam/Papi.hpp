@@ -31,7 +31,7 @@ public:
 		_sprite[6].setTexture(_texture[6]);
 		for (int it = 0; it < 7; ++it)
 		{
-			_sprite[it].setPosition(70, 100);
+			_sprite[it].setPosition(140, 100);
 			_sprite[it].setScale(0.7f, 0.7f);
 		}
 		_frame = 0;
@@ -52,8 +52,8 @@ public:
 				_frameClock.restart();
 			}
 			pos.x -= 6;
-			if (pos.x < 0)
-				pos.x = 0;
+			if (pos.x < 140)
+				pos.x = 140;
 			break;
 		case Papi::Direction::Right:
 		if (_frameClock.getElapsedTime().asMilliseconds() > 70)
@@ -64,8 +64,8 @@ public:
 				_frameClock.restart();
 			}
 			pos.x += 6;
-		if (pos.x > 1100 - _texture[_frame].getSize().x)
-			pos.x = 1100.0f - _texture[_frame].getSize().x;
+		if (pos.x > 1070 - _texture[_frame].getSize().x)
+			pos.x = 1070.0f - _texture[_frame].getSize().x;
 			break;
 		default:
 			_frame = 0;
