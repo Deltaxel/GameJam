@@ -282,7 +282,7 @@ public:
 				break;
 			};
 			_sprite.setTexture(_texture);
-			_sprite.setScale(0.1f, 0.1f);
+			_sprite.setScale(0.8f, 0.8f);
 			_sprite.setPosition(200 * _time + 400, 50);
 			_time += clock.getElapsedTime().asSeconds();
 		}

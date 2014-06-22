@@ -47,7 +47,7 @@ public:
 			++_frame;
 			if (_frame > 6)
 				_frame = 1;
-			pos.x -= 8;
+			pos.x -= 6;
 			if (pos.x < 0)
 				pos.x = 0;
 			break;
@@ -55,7 +55,7 @@ public:
 			--_frame;
 			if (_frame < 1)
 				_frame = 6;
-			pos.x += 8;
+			pos.x += 6;
 			if (pos.x > 1100 - _texture[_frame].getSize().x)
 				pos.x = 1100.0f - _texture[_frame].getSize().x;
 			break;

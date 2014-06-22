@@ -16,10 +16,10 @@ using namespace sf;
 
 int main()
 {
-	RenderWindow window(VideoMode(1100, 768, 32), "Mettre ici le nom du jeu", Style::Close | Style::Titlebar);
+	RenderWindow window(VideoMode(1100, 768, 32), "EDGY BOBY", Style::Close | Style::Titlebar);
 
-	Texture sky, clouds, buildings, play, quit, credit, ground;
-	Sprite sSky, sClouds, sBuildings, sPlay, sQuit, sCredit, sGround;
+	Texture sky, clouds, buildings, play, quit, credit, ground, end;
+	Sprite sSky, sClouds, sBuildings, sPlay, sQuit, sCredit, sGround, sEnd;
 	HUD	hud;
 	Papi papi;
 	Font font;
@@ -38,6 +38,18 @@ int main()
 	sPigeon.push_back(new Pigeon);
 	sPigeon.push_back(new Pigeon);
 	sPigeon.push_back(new Pigeon);
+	sPigeon.push_back(new Pigeon);
+	sPigeon.push_back(new Pigeon);
+	sPigeon.push_back(new Pigeon);
+	sPigeon.push_back(new Pigeon);
+	sPigeon.push_back(new Pigeon);
+	sPigeon.push_back(new Pigeon);
+	sPigeon.push_back(new Pigeon);
+	sPigeon.push_back(new Pigeon);
+	sPigeon.push_back(new Pigeon);
+	sPigeon.push_back(new Pigeon);
+	sPigeon.push_back(new Pigeon);
+	sPigeon.push_back(new Pigeon);
 
 	if (sky.loadFromFile("ressources/background.png") == 0
 		|| clouds.loadFromFile("ressources/clouds.png") == 0
@@ -46,7 +58,8 @@ int main()
 		|| quit.loadFromFile("ressources/play.png") == 0
 		|| credit.loadFromFile("ressources/play.png") == 0
 		|| ground.loadFromFile("ressources/floor.png") == 0
-		|| font.loadFromFile("ressources/font.ttf") == 0)
+		|| font.loadFromFile("ressources/font.ttf") == 0
+		|| end.loadFromFile("ressources/end.png") == 0)
 	{
 		std::cerr << "Load image faild" << std::endl;
 		system("PAUSE");
@@ -68,6 +81,9 @@ int main()
     }
 	
 	system->playSound(FMOD_CHANNEL_FREE, musique, 0, NULL);
+	sEnd.setTexture(end);
+	sEnd.setPosition(0,0);
+	sEnd.setScale(0.5, 0.5);
 	sPlay.setTexture(play);
 	sPlay.setPosition(300, 100);
 	sQuit.setTexture(quit);
@@ -184,7 +200,15 @@ int main()
 		ss << score;
 		text.setString(ss.str());
 		if (clock.getElapsedTime().asSeconds() > 175)
+		{
+			window.draw(sEnd);
+			std::string toto("Your score is :\n      " + ss.str() + " / 3850\n    Press Echap");
+			text.setString(toto);
+			text.setCharacterSize(90);
+			text.setPosition(300, 250);
+			window.draw(text);
 			system->close();
+		}
 		window.display();
 	}
     return EXIT_SUCCESS;
