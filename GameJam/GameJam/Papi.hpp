@@ -32,7 +32,7 @@ public:
 		for (int it = 0; it < 7; ++it)
 		{
 			_sprite[it].setPosition(70, 100);
-			_sprite[it].setScale(0.7, 0.7);
+			_sprite[it].setScale(0.7f, 0.7f);
 		}
 		_frame = 0;
 	}

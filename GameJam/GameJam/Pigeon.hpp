@@ -1,7 +1,9 @@
 #pragma once
 
 #include <stdlib.h>
-#include <SFML/Graphics.hpp>
+
+#include "SFML/Graphics.hpp"
+#include "Caca.hpp"
 
 class Pigeon
 {
@@ -17,7 +19,7 @@ public:
 	}
 	~Pigeon() {}
 
-	void	update(sf::RenderWindow &window, std::vector<sf::Sprite*> &poop)
+	void	update(sf::RenderWindow &window, std::list<Caca *> &poop)
 	{
 		if (_direction)
 		{
@@ -34,7 +36,7 @@ public:
 		for (auto it = poop.begin(); it != poop.end(); ++it)
 		{
 			if ((*it)->getPosition().y>= _sprite.getPosition().y
-				&& (*it)->getPosition().x + (*it)->getTexture()->getSize().x>= _sprite.getPosition().x - (_direction ? _texture.getSize().x : 0)
+				&& (*it)->getPosition().x + (*it)->getSize().x >= _sprite.getPosition().x - (_direction ? _texture.getSize().x : 0)
 				&& (*it)->getPosition().x <= _sprite.getPosition().x + _texture.getSize().x - (_direction ? _texture.getSize().x : 0))
 				_sprite.setScale(1.2f, 1.2f);
 		}

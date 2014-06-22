@@ -80,6 +80,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Caca.hpp" />
     <ClInclude Include="HUD.hpp" />
     <ClInclude Include="Papi.hpp" />
     <ClInclude Include="Pigeon.hpp" />
